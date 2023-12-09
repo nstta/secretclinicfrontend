@@ -42,6 +42,7 @@ const Appointment = () => {
     try {
       const response = await axios.post('http://localhost:3000/appointments', formData);
       sendEmail();
+      console.log(sendEmail);
       console.log(response.data);
     } catch (error) {
       console.error('Error submitting appointment:', error);

@@ -1,9 +1,10 @@
-import React, { useRef,useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { Container, Typography, Grid } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 
 import location from '../images/location-icon-contact.png';
@@ -30,11 +31,14 @@ const Contact = () => {
 
   const handleSubmit = async () => {
     try {
+      const response = await axios.post('http://localhost:3000/contact', formData);
+      console.log(response.data);
       navigate('/contact/success');
     } catch (error) {
-      console.error('Error submitting appointment:', error);
+      console.error('Error submitting form:', error);
     }
   };
+
 
   return (
     <div style={{ position: 'relative' }}>
