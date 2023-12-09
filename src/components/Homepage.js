@@ -168,20 +168,20 @@ const Homepage = () => {
         <Grid item>
           <DoctorCard
             doctorImage={doctor2}
-            doctorName="Dr. James Boston"
+            doctorName="Dr. Sarah Johnson"
             specialty="Consulting doctor"
-            hospital="Royal London Hospital"
-            schedule="06:00 PM - 02:30 AM"
+            hospital="St Thomas' Hospital"
+            schedule="12:30 PM - 09:30 PM"
             icon={clock}
           />
         </Grid>
         <Grid item>
           <DoctorCard
             doctorImage={doctor3}
-            doctorName="Dr. James Boston"
+            doctorName="Dr. David Williams"
             specialty="Consulting doctor"
-            hospital="Royal London Hospital"
-            schedule="06:00 PM - 02:30 AM"
+            hospital="King's College Hospital"
+            schedule="08:00 AM - 05:00 PM"
             icon={checklist}
           />
         </Grid>
