@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { Container, Typography, Grid } from '@mui/material';
@@ -15,7 +15,6 @@ import circle from '../images/circle.png';
 
 const Contact = () => {
   const navigate = useNavigate();
-  const form = useRef();
 
   const [formData, setFormData] = useState({
     firstname: '',
