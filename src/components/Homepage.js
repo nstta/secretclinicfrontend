@@ -1,10 +1,13 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Container, Grid, Box, FormGroup } from '@mui/material';
 import { Slide } from 'react-slideshow-image';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 import 'react-slideshow-image/dist/styles.css';
 
@@ -57,43 +60,14 @@ import location from '../images/map-icon.png';
 
 import Navbar from './Navbar';
 
-const CustomSlide = ({ index, images }) => (
-  <div className="each-slide-effect">
-    <div style={{ backgroundImage: `url(${images[index]})`, width: '100%', height: '680px', backgroundSize: 'cover' }}>
-      <span style={{ color: 'black', fontSize: '40px', fontWeight: 'bold', padding: '85px', fontFamily: 'Poppins, sans-serif' }}>
-        if you want to <span style={{ color: '#1A76D1', fontSize: '48px' }}>Consult</span> or get <span style={{ color: '#1A76D1', fontSize: '48px' }}>Advice</span><br />
-        from the Doctor. You can talk to us<br /><span style={{ color: '#1A76D1', fontSize: '48px' }}>Confidentially !</span><br />
-        <p style={{ color: '#515151', fontSize: '20px', fontWeight: 'normal' }}>You can trust us for both advice and confidentiality. Because we have more than<br />10 years of experience.</p>
-        <Button className="navbar-button2" variant="contained" style={{ color: 'white', textTransform: 'none', backgroundColor: 'black', fontFamily: 'Poppins, sans-serif', width: '260px', height: '71px', fontSize: '24px' }}>
-          Chat now
-        </Button>
-      </span>
-    </div>
-  </div>
-);
-
-const DoctorCard = ({ doctorImage, doctorName, specialty, hospital, schedule, icon }) => (
-  <Container style={{ backgroundColor: '#004D9A', borderRadius: '20px', width: '400px', height: '600px', position: 'relative', marginTop: '-150px' }}>
-    <img src={doctorImage} alt="Doctor" className="doctoer-card" style={{ paddingTop: '25px', width: '100%', borderRadius: '20px' }} />
-    <Typography style={{ color: 'white', fontWeight: 500, fontFamily: 'Poppins, sans-serif', fontSize: '32px' }}>{doctorName}</Typography>
-    <Box style={{ display: 'flex', flexDirection: 'row', marginTop: '15px' }}>
-      <img src={medicalIcon} alt="icon" style={{ width: '24px', height: '24px' }} />
-      <Typography style={{ color: 'white', fontWeight: 100, fontFamily: 'Poppins, sans-serif', fontSize: '16px', marginLeft: '15px' }}>{specialty}</Typography>
-    </Box>
-    <Box style={{ display: 'flex', flexDirection: 'row', marginTop: '5px' }}>
-      <img src={hospitalIcon} alt="icon" style={{ width: '24px', height: '24px' }} />
-      <Typography style={{ color: 'white', fontWeight: 100, fontFamily: 'Poppins, sans-serif', fontSize: '16px', marginLeft: '15px' }}>{hospital}</Typography>
-    </Box>
-    <Box style={{ display: 'flex', flexDirection: 'row', marginTop: '7px' }}>
-      <img src={clockIcon} alt="icon" style={{ width: '20px', height: '20px', marginLeft: '2px' }} />
-      <Typography style={{ color: 'white', fontWeight: 100, fontFamily: 'Poppins, sans-serif', fontSize: '16px', marginLeft: '15px' }}>{schedule}</Typography>
-    </Box>
-    <img src={icon} alt="ambulance" style={{ position: 'absolute', bottom: '0', right: '0', width: '120px', height: 'auto' }} />
-  </Container>
-);
-
 const Homepage = () => {
   const images = [headimage1, headimage2, headimage3];
+  const navigate = useNavigate();
+  const [subscribe, setSubscribe] = useState({email: ''});
+
+  const handleChange = (e) => {
+    setSubscribe({ ...subscribe, [e.target.name]: e.target.value });
+  };
 
   const boxDetails = [
     { icon: homeIcon, number: '35470', text: 'Give consult' },
@@ -110,6 +84,61 @@ const Homepage = () => {
     { img: bt5 }
     ,
   ];
+
+  const handleSubmit = async () => {
+    try {
+      navigate('/chat')
+    } catch (error) {
+      console.error('Error go to chating:', error);
+    }
+  };
+
+  const handleSubscibe = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/subscribe', subscribe);
+      setSubscribe({ email: '' });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+  
+  const CustomSlide = ({ index, images }) => (
+    <div className="each-slide-effect">
+      <div style={{ backgroundImage: `url(${images[index]})`, width: '100%', height: '680px', backgroundSize: 'cover' }}>
+        <span style={{ color: 'black', fontSize: '40px', fontWeight: 'bold', padding: '85px', fontFamily: 'Poppins, sans-serif' }}>
+          if you want to <span style={{ color: '#1A76D1', fontSize: '48px' }}>Consult</span> or get <span style={{ color: '#1A76D1', fontSize: '48px' }}>Advice</span><br />
+          from the Doctor. You can talk to us<br /><span style={{ color: '#1A76D1', fontSize: '48px' }}>Confidentially !</span><br />
+          <p style={{ color: '#515151', fontSize: '20px', fontWeight: 'normal' }}>You can trust us for both advice and confidentiality. Because we have more than<br />10 years of experience.</p>
+          <Button className="navbar-button2" onClick={handleSubmit} variant="contained" style={{ color: 'white', textTransform: 'none', backgroundColor: 'black', fontFamily: 'Poppins, sans-serif', width: '260px', height: '71px', fontSize: '24px' }}>
+            Chat now
+          </Button>
+        </span>
+      </div>
+    </div>
+  );
+  
+  const DoctorCard = ({ doctorImage, doctorName, specialty, hospital, schedule, icon }) => (
+    <Container style={{ backgroundColor: '#004D9A', borderRadius: '20px', width: '400px', height: '600px', position: 'relative', marginTop: '-150px' }}>
+      <img src={doctorImage} alt="Doctor" className="doctoer-card" style={{ paddingTop: '25px', width: '100%', borderRadius: '20px' }} />
+      <Typography style={{ color: 'white', fontWeight: 500, fontFamily: 'Poppins, sans-serif', fontSize: '32px' }}>{doctorName}</Typography>
+      <Box style={{ display: 'flex', flexDirection: 'row', marginTop: '15px' }}>
+        <img src={medicalIcon} alt="icon" style={{ width: '24px', height: '24px' }} />
+        <Typography style={{ color: 'white', fontWeight: 100, fontFamily: 'Poppins, sans-serif', fontSize: '16px', marginLeft: '15px' }}>{specialty}</Typography>
+      </Box>
+      <Box style={{ display: 'flex', flexDirection: 'row', marginTop: '5px' }}>
+        <img src={hospitalIcon} alt="icon" style={{ width: '24px', height: '24px' }} />
+        <Typography style={{ color: 'white', fontWeight: 100, fontFamily: 'Poppins, sans-serif', fontSize: '16px', marginLeft: '15px' }}>{hospital}</Typography>
+      </Box>
+      <Box style={{ display: 'flex', flexDirection: 'row', marginTop: '7px' }}>
+        <img src={clockIcon} alt="icon" style={{ width: '20px', height: '20px', marginLeft: '2px' }} />
+        <Typography style={{ color: 'white', fontWeight: 100, fontFamily: 'Poppins, sans-serif', fontSize: '16px', marginLeft: '15px' }}>{schedule}</Typography>
+      </Box>
+      <img src={icon} alt="ambulance" style={{ position: 'absolute', bottom: '0', right: '0', width: '120px', height: 'auto' }} />
+    </Container>
+  );
+  
 
   return (
     <AppBar position="static">
@@ -199,18 +228,22 @@ const Homepage = () => {
               sx={{
                 flexGrow: 1,
                 '& .MuiOutlinedInput-root': {
-                  borderRight: '1px solid white', // Set the right border color to white
+                  borderRight: '1px solid white',
                   '&.Mui-focused': {
                     border: 'none',
                   },
                 },
                 '& .MuiOutlinedInput-input': {
-                  fontFamily: 'Poppins, sans-serif', // Set the font family
-                  fontSize: '16px', // Set the font size
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '16px',
                 },
               }}
+              type='email'
+              name='email'
+              onChange={handleChange}
+              value={subscribe.email}
             />
-            <Button variant="contained" disableElevation style={{ textTransform: 'none', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '14px', padding: '16px', marginLeft: '-10px' }}>
+            <Button variant="contained" onClick={handleSubscibe} disableElevation style={{ textTransform: 'none', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '14px', padding: '16px', marginLeft: '-10px' }}>
               Subscibe
             </Button>
           </FormGroup>
@@ -243,7 +276,6 @@ const Homepage = () => {
 
       <Container style={{ height: '270px', backgroundColor: '#1A76D1', marginTop: '60px', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
         <Grid container spacing={3} justifyContent="center">
-          {/* First Column */}
           <Grid item xs={6} md={2}>
             <Typography style={{ textAlign: 'initial', fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold', fontSize: '16px', color: 'white' }} className='bottom-text'>Company Info</Typography>
             <Typography style={{ textAlign: 'initial', fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold', fontSize: '14px', color: 'white', paddingTop: '20px' }} className='bottom-text'>About Us</Typography>
@@ -252,7 +284,6 @@ const Homepage = () => {
             <Typography style={{ textAlign: 'initial', fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold', fontSize: '14px', color: 'white', paddingTop: '10px' }} className='bottom-text'>Blog</Typography>
           </Grid>
 
-          {/* Second Column */}
           <Grid item xs={6} md={2}>
             <Typography style={{ textAlign: 'initial', fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold', fontSize: '16px', color: 'white' }} className='bottom-text'>Legal</Typography>
             <Typography style={{ textAlign: 'initial', fontFamily: 'Montserrat, sans-serif', fontWeight: 'bold', fontSize: '14px', color: 'white', paddingTop: '20px' }} className='bottom-text'>About Us</Typography>
@@ -294,7 +325,7 @@ const Homepage = () => {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
-                maxWidth: '35ch', // or adjust as needed
+                maxWidth: '35ch',
               }}>
                 4517 Washington Ave. Manchester, Kentucky 39495
               </Typography>
