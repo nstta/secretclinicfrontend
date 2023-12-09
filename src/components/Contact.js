@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { Container, Typography, Grid } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -12,6 +13,29 @@ import tel from '../images/tel-contact.png';
 import circle from '../images/circle.png';
 
 const Contact = () => {
+  const navigate = useNavigate();
+  const form = useRef();
+
+  const [formData, setFormData] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    phoneNumber: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      navigate('/contact/success');
+    } catch (error) {
+      console.error('Error submitting appointment:', error);
+    }
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       <Navbar />
@@ -126,6 +150,9 @@ const Contact = () => {
                   variant="standard"
                   color="grey"
                   focused
+                  name="firstname"
+                  onChange={handleChange}
+                  value={formData.firstname}
                   sx={{
                     '& label': {
                       fontFamily: 'Poppins, sans-serif',
@@ -142,6 +169,9 @@ const Contact = () => {
                   variant="standard"
                   color="grey"
                   focused
+                  name="email"
+                  onChange={handleChange}
+                  value={formData.email}
                   sx={{
                     '& label': {
                       fontFamily: 'Poppins, sans-serif',
@@ -162,6 +192,9 @@ const Contact = () => {
                   variant="standard"
                   color="grey"
                   focused
+                  name="lastname"
+                  onChange={handleChange}
+                  value={formData.lastname}
                   sx={{
                     '& label': {
                       fontFamily: 'Poppins, sans-serif',
@@ -178,6 +211,9 @@ const Contact = () => {
                   variant="standard"
                   color="grey"
                   focused
+                  name="phoneNumber"
+                  onChange={handleChange}
+                  value={formData.phoneNumber}
                   sx={{
                     '& label': {
                       fontFamily: 'Poppins, sans-serif',
@@ -197,18 +233,21 @@ const Contact = () => {
               color="grey"
               focused
               multiline
+              name="message"
+              onChange={handleChange}
+              value={formData.message}
               sx={{
                 '& label': {
                   fontFamily: 'Poppins, sans-serif',
                 },
                 '& textarea': {
-                  width: '690px',
+                  width: '680px',
                 },
               }}
             />
           </Grid>
           <Grid item xs={12} style={{ marginTop: '40px', textAlign: 'right', marginRight: '60px' }}>
-            <Button variant="contained" style={{ textTransform: 'none', fontFamily: 'Poppins, sans-serif', fontWeight: 300, fontSize: '16px', padding: '16px' }}>
+            <Button type="submit" variant="contained" onClick={handleSubmit} style={{ textTransform: 'none', fontFamily: 'Poppins, sans-serif', fontWeight: 300, fontSize: '16px', padding: '16px' }}>
               Send Message
             </Button>
           </Grid>

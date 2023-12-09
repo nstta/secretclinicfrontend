@@ -6,6 +6,8 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Appointment from './components/Appointment';
 import Chat from './components/Chat';
+import Success from './components/Success';
+import ContactSuccess from './components/ContactSuccess';
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
           <Route path="/contact" element={<Contact/>} />
           <Route path="/appointment" element={<Appointment/>} />
           <Route path="/chat" element={<Chat/>} />
+          <Route path="/appointment/success" element={<Success/>} />
+          <Route path="/contact/success" element={<ContactSuccess/>} />
         </Routes>
       </div>
   );
