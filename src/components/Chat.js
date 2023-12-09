@@ -122,7 +122,7 @@ const Chat = () => {
             </div>
           ))}
         </div>
-        <div style={{ position: 'fixed', bottom: 40, left: 0, width: '100%', padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'fixed', bottom: 40, left: 0, width: '100%', padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop:'50px' }}>
           <TextField
             placeholder='Type here'
             variant="outlined"
