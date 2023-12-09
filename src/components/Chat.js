@@ -81,7 +81,7 @@ const Chat = () => {
         }}> <CircleIcon style={{ marginLeft: '5px', marginTop: '10px', color: 'red', width: '10px', height: '10px' }} />
           Live chat
         </Typography>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '80px' }}>
           {chatHistory.map((message, index) => (
             <div
               key={index}
